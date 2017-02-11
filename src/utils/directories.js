@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');
+const { ncp } = require('ncp');
 
 const createDirectory = (currentPath, segments) => {
   if (segments.length === 0) {
@@ -21,11 +22,24 @@ const createDirectory = (currentPath, segments) => {
 
 const createDirectories = (url, root) => {
   const segments = url.split('/').reverse();
-  const absoluteRoot = path.resolve(process.env.PWD, root);
+  const absoluteRoot = path.resolve(root);
 
   createDirectory(absoluteRoot, segments);
 };
 
+const copyDirectory = (src, dest) => {
+  return new Promise((resolve, reject) => {
+    ncp(src, dest, err => {
+      if (err) {
+          return reject(err);
+      }
+
+      resolve();
+    });
+  });
+};
+
 module.exports = {
-  createDirectories
+  createDirectories,
+  copyDirectory
 };
