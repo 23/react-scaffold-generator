@@ -1,0 +1,1 @@
+export { default as __MAIN_CONTAINER__Container } from './__MAIN_CONTAINER__Container';
