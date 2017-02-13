@@ -4,8 +4,9 @@ const _ = require('lodash');
 const { ncp } = require('ncp');
 
 module.exports = {
-  createDirectory(currentPath, segments) {
+  createDirectory(currentPath, segments, callback) {
     if (segments.length === 0) {
+      callback(currentPath);
       return;
     }
 
@@ -14,18 +15,22 @@ module.exports = {
 
     if (!fs.existsSync(newDir)) {
       fs.mkdir(newDir, () =>
-        this.createDirectory(newDir, segments)
+        this.createDirectory(newDir, segments, callback)
       );
     } else {
-      this.createDirectory(newDir, segments);
+      this.createDirectory(newDir, segments, callback);
     }
   },
 
   createDirectories(url, root) {
-    const segments = url.split('/').reverse();
+    const segments = url.split('/');
     const absoluteRoot = path.resolve(root);
 
-    this.createDirectory(absoluteRoot, segments);
+    return new Promise(resolve => {
+      this.createDirectory(absoluteRoot, [].concat(segments).reverse(), areaPath => {
+        resolve({ segments, areaPath });
+      });
+    });
   },
 
   copyDirectory(src, dest) {
