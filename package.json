@@ -4,6 +4,7 @@
   "description": "A set of generators for an opninionated folder structure, React components and Redux entities. ",
   "main": "index.js",
   "scripts": {
+    "start": "node .",
     "test": "jest"
   },
   "author": "Daniel Pouzemski",
