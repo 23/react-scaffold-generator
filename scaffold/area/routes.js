@@ -1,8 +1,8 @@
-import { __MAIN_CONTAINER__Container } from './containers/';
+import { __AREA_NAME__Container } from './containers/';
 
 export default {
-  path: '__SEGMENT__',
+  path: '__AREA_SEGMENT__',
   indexRoute: {
-    component: __MAIN_CONTAINER__Container
+    component: __AREA_NAME__Container
   }
 };
