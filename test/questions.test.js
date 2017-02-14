@@ -1,4 +1,4 @@
-const questions = require('../src/questions.js');
+const questions = require('../src/utils/area/questions.js');
 
 describe('urlQuestion', () => {
   describe('filter', () => {
