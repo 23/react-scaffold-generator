@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const inquirer = require('inquirer');
 const areaTask = require('./src/tasks/area.js');
 const { urlQuestion, fetchQuestion } = require('./src/utils/area/questions.js');

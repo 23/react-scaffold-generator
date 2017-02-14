@@ -2,14 +2,15 @@
   "name": "react-scaffold-generator",
   "version": "1.0.0",
   "description": "A set of generators for an opinionated folder structure, React components and Redux entities.",
-  "main": "index.js",
+  "main": "generate",
   "scripts": {
-    "start": "node .",
+    "start": "./generate",
     "test": "jest"
   },
   "author": "Daniel Pouzemski",
   "license": "ISC",
   "dependencies": {
+    "commander": "^2.9.0",
     "inquirer": "^3.0.1",
     "lodash": "^4.17.4",
     "ncp": "^2.0.0",
