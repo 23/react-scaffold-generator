@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 module.exports = {
   urlQuestion: {
     type: 'input',
@@ -13,6 +15,11 @@ module.exports = {
       }
 
       return val;
+    },
+    validate: val => {
+      if (_.isEmpty(val)) {
+        return 'This does not look like a valid URL';
+      }
     }
   },
   fetchQuestion: {

@@ -15,6 +15,11 @@ module.exports = {
       }
 
       return val;
+    },
+    validate: val => {
+      if (_.isEmpty(val)) {
+        return 'This does not look like a valid URL';
+      }
     }
   },
   typeQuestion: {
@@ -48,6 +53,11 @@ module.exports = {
       }
 
       return _.upperFirst(val);
+    },
+    validate: val => {
+      if (_.isEmpty(val)) {
+        return 'This does not look like a valid component name';
+      }
     }
   }
 };

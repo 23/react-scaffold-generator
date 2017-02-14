@@ -67,6 +67,6 @@ module.exports = {
   },
 
   getRoot() {
-    return process.env.root || path.resolve('app');
+    return process.env.REACT_SCAFFOLD_ROOT || path.resolve('app');
   }
 };
