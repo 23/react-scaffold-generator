@@ -46,12 +46,18 @@ module.exports = {
     });
   },
 
-  getFilesFromDirectory(directoryPath, fileCallback) {
+  getFilesFromDirectory(directoryPath, fileCallback, finishCallback) {
     const walker = walk.walk(directoryPath, { followLinks: false });
 
     walker.on('file', (root, stat, next) => {
       fileCallback(path.resolve(root, stat.name), stat.name);
       next();
+    });
+
+    walker.on('end', () => {
+      if (finishCallback) {
+        finishCallback();
+      }
     });
   }
 };

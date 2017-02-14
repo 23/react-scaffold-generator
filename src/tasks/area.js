@@ -3,6 +3,7 @@ const path = require('path');
 const directories = require('../utils/directories.js');
 const files = require('../utils/files.js');
 const { generatePlaceholders } = require('../utils/area/placeholders.js');
+const componentTask = require('./component.js');
 
 module.exports = (areaURL, mainComponentType, root) => {
   directories.createDirectories(areaURL, root).then(({ segments, areaPath }) => {
@@ -14,6 +15,12 @@ module.exports = (areaURL, mainComponentType, root) => {
         promises.push(
           files.replacePlaceholders(areaPath, filePath, placeholders)
         );
+      }, () => {
+        Promise.all(promises).then(() => {
+          const componentType = mainComponentType === 'container' ? 'component_container' : 'component';
+
+          componentTask(path.resolve(areaPath, 'components'), placeholders.mainComponentName, componentType);
+        });
       });
     });
   });
