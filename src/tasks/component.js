@@ -4,16 +4,22 @@ const path = require('path');
 const { generatePlaceholders } = require('../utils/component/placeholders.js');
 
 module.exports = (destPath, componentName, componentType) => {
-  debugger;
-  const sourcePath = path.resolve(`scaffold/${componentType}`);
+  return new Promise((resolve, reject) => {
+    const sourcePath = path.resolve(`scaffold/${componentType}`);
 
-  destPath = path.resolve(destPath, componentName);
+    destPath = path.resolve(destPath, componentName);
 
-  directories.copyDirectory(sourcePath, destPath).then(() => {
-    const placeholders = generatePlaceholders(componentName);
+    directories.copyDirectory(sourcePath, destPath).then(() => {
+      const placeholders = generatePlaceholders(componentName);
+      const promises = [];
 
-    directories.getFilesFromDirectory(destPath, filePath => {
-      files.replacePlaceholders(destPath, filePath, placeholders)
+      directories.getFilesFromDirectory(destPath, filePath => {
+        promises.push(
+          files.replacePlaceholders(destPath, filePath, placeholders)
+        );
+
+        Promise.all(promises).then(() => resolve());
+      });
     });
   });
 };

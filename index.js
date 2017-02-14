@@ -7,5 +7,7 @@ const root = process.env.root || 'app';
 inquirer.prompt([urlQuestion, fetchQuestion]).then(answers => {
   const { areaURL, mainComponentType } = answers;
 
-  areaTask(areaURL, mainComponentType, root);
+  areaTask(areaURL, mainComponentType, root).then(areaPath => {
+    console.log(`A new area has been generated in ${areaPath}`);
+  });
 });
