@@ -3,11 +3,12 @@ const files = require('../utils/files.js');
 const path = require('path');
 const { generatePlaceholders } = require('../utils/component/placeholders.js');
 
-module.exports = (destPath, componentName, componentType) => {
+module.exports = (areaURL, componentName, componentType) => {
   return new Promise((resolve, reject) => {
     const sourcePath = path.resolve(`scaffold/${componentType}`);
+    const componentsPath = path.resolve(directories.convertURLtoPath(areaURL), 'components');
 
-    destPath = path.resolve(destPath, componentName);
+    destPath = path.resolve(componentsPath, componentName);
 
     directories.copyDirectory(sourcePath, destPath).then(() => {
       const placeholders = generatePlaceholders(componentName);
@@ -18,7 +19,7 @@ module.exports = (destPath, componentName, componentType) => {
           files.replacePlaceholders(destPath, filePath, placeholders)
         );
 
-        Promise.all(promises).then(() => resolve());
+        Promise.all(promises).then(() => resolve(componentsPath));
       });
     });
   });

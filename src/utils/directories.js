@@ -25,10 +25,9 @@ module.exports = {
 
   createDirectories(url, root) {
     const segments = url.split('/');
-    const absoluteRoot = path.resolve(root);
 
     return new Promise(resolve => {
-      this.createDirectory(absoluteRoot, [].concat(segments).reverse(), areaPath => {
+      this.createDirectory(root, [].concat(segments).reverse(), areaPath => {
         resolve({ segments, areaPath });
       });
     });
@@ -65,5 +64,9 @@ module.exports = {
     const segments = url.split('/').map(segment => _.upperFirst(segment)).join('/');
 
     return path.resolve('app', segments);
+  },
+
+  getRoot() {
+    return process.env.root || path.resolve('app');
   }
 };

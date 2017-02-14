@@ -5,9 +5,9 @@ const files = require('../utils/files.js');
 const { generatePlaceholders } = require('../utils/area/placeholders.js');
 const componentTask = require('./component.js');
 
-module.exports = (areaURL, mainComponentType, root) => {
+module.exports = (areaURL, mainComponentType) => {
   return new Promise((resolve, reject) => {
-    directories.createDirectories(areaURL, root).then(({ segments, areaPath }) => {
+    directories.createDirectories(areaURL, directories.getRoot()).then(({ segments, areaPath }) => {
       directories.copyDirectory(path.resolve('scaffold/area'), areaPath).then(() => {
         const placeholders = generatePlaceholders(segments, mainComponentType);
         const promises = [];
@@ -20,7 +20,7 @@ module.exports = (areaURL, mainComponentType, root) => {
           Promise.all(promises).then(() => {
             const componentType = mainComponentType === 'container' ? 'component_container' : 'component';
 
-            componentTask(path.resolve(areaPath, 'components'), placeholders.mainComponentName, componentType).then(
+            componentTask(areaURL, placeholders.mainComponentName, componentType).then(
               () => resolve(areaPath)
             );
           });
