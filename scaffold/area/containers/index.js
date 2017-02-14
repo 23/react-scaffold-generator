@@ -1,1 +1,0 @@
-export { default as __AREA_NAME__Container } from './__AREA_NAME__Container';
