@@ -59,5 +59,11 @@ module.exports = {
         finishCallback();
       }
     });
+  },
+
+  convertURLtoPath(url) {
+    const segments = url.split('/').map(segment => _.upperFirst(segment)).join('/');
+
+    return path.resolve('app', segments);
   }
 };

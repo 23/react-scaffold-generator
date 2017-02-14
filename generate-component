@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+
+const inquirer = require('inquirer');
+const path = require('path');
+const componentTask = require('./src/tasks/component.js');
+const { convertURLtoPath } = require('./src/utils/directories.js');
+const { urlQuestion, typeQuestion, functionalQuestion, nameQuestion  } = require('./src/utils/component/questions.js');
+
+const root = process.env.root || 'app';
+
+const lastQuestion = (destPath, componentType) => {
+  inquirer.prompt([nameQuestion]).then(({ componentName }) => {
+    componentTask(destPath, componentName, componentType).then(() => {
+      console.log(`${componentName} in ${destPath} has been generated`);
+    });
+  });
+};
+
+inquirer.prompt([urlQuestion, typeQuestion]).then(answers => {
+  const { areaURL, componentType } = answers;
+  const destPath = path.resolve(convertURLtoPath(areaURL), 'components');
+
+  if (componentType === 'presentational') {
+    inquirer.prompt([functionalQuestion]).then(({ isFunctional }) => {
+      const componentType = isFunctional ? 'component_pure' : 'component';
+      lastQuestion(destPath, componentType);
+    });
+  } else {
+    lastQuestion(destPath, 'component_container');
+  }
+});
