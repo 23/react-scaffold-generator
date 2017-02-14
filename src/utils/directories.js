@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');
 const { ncp } = require('ncp');
+const walk = require('walk');
 
 module.exports = {
   createDirectory(currentPath, segments, callback) {
@@ -42,6 +43,15 @@ module.exports = {
 
         resolve();
       });
+    });
+  },
+
+  getFilesFromDirectory(directoryPath, fileCallback) {
+    const walker = walk.walk(directoryPath, { followLinks: false });
+
+    walker.on('file', (root, stat, next) => {
+      fileCallback(path.resolve(root, stat.name), stat.name);
+      next();
     });
   }
 };

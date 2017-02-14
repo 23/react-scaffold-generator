@@ -15,30 +15,43 @@ module.exports = {
     });
   },
 
-  replacePlaceholdersInString(string, placeholders) {
+  forEachPlaceholder(placeholders, callback) {
     _.each(placeholders, (placeholderValue, placeholderName) => {
       placeholderName = `__${_.snakeCase(placeholderName).toUpperCase()}__`;
+      callback(placeholderName, placeholderValue);
+    });
+  },
+
+  replacePlaceholdersInString(string, placeholders) {
+    this.forEachPlaceholder(placeholders, (placeholderName, placeholderValue) => {
       string = string.replace(new RegExp(placeholderName, 'gi'), placeholderValue);
     });
 
     return string;
   },
 
-  replacePlaceholders(areaPath, fileName, placeholders) {
-    const areaNameRegex = /__AREA_NAME__/;
-    const { areaName } = placeholders;
-    const oldPath = path.resolve(areaPath, fileName);
-    let renamePromise = Promise.resolve();
-    let newPath = oldPath;
+  replacePlaceholdersInFilename(filePath, fileName, placeholders) {
+    const oldPath = path.resolve(filePath, fileName);
+    const oldFileName = fileName;
 
-    if (areaNameRegex.test(fileName)) {
-      const newName = fileName.replace(areaNameRegex, areaName);
+    this.forEachPlaceholder(placeholders, (placeholderName, placeholderValue) => {
+      const fileNameRegex = new RegExp(placeholderName);
 
-      newPath = path.resolve(areaPath, newName);
-      renamePromise = this.renameFile(oldPath, newPath);
+      if (fileNameRegex.test(fileName)) {
+        fileName = fileName.replace(fileNameRegex, placeholderValue);
+      }
+    });
+
+    if (oldFileName !== fileName) {
+      const newPath = path.resolve(filePath, fileName);
+      return this.renameFile(oldPath, newPath).then(() => newPath);
+    } else {
+      return Promise.resolve(fileName);
     }
+  },
 
-    return renamePromise.then(() => {
+  replacePlaceholders(areaPath, fileName, placeholders) {
+    return this.replacePlaceholdersInFilename(areaPath, fileName, placeholders).then(newPath => {
       return new Promise((resolve, reject) => {
         fs.readFile(newPath, 'utf8', (err, data) => {
           if (err) {
