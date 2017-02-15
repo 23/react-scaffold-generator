@@ -12,6 +12,10 @@
     "react-scaffold-generator-component": "./generate-component",
     "react-scaffold-generator-area": "./generate-area"
   },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/23/react-scaffold-generator"
+  },
   "author": "Daniel Pouzemski",
   "license": "ISC",
   "dependencies": {
