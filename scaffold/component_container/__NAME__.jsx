@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchData } from '../actions.js';
+import { fetchData } from '../../actions';
 
 import './__NAME__.scss';
 
@@ -14,13 +14,17 @@ class __NAME__ extends React.Component {
       <div className="__ROOT_CLASS__">
 
       </div>
-    )
+    );
   }
 }
 
-const mapStateProps = state => {
-  return state;
+__NAME__.propTypes = {
+  fetchData: React.PropTypes.func
 };
+
+const mapStateProps = state => ({
+  prop: state.prop
+});
 
 export default connect(
   mapStateProps,

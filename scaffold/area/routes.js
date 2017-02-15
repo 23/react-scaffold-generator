@@ -1,4 +1,4 @@
-import { __MAIN_COMPONENT_NAME__ } from './components/__MAIN_COMPONENT_NAME__.jsx';
+import { __MAIN_COMPONENT_NAME__ } from './components';
 
 export default {
   path: '__AREA_SEGMENT__',
