@@ -3,7 +3,7 @@
 const program = require('commander');
 
 program
-  .version('1.0.0')
+  .version('0.1.0')
   .command('area', 'generates an area folder with an entry-level React component')
   .command('component', 'generates a React component')
   .parse(process.argv);
