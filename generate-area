@@ -7,7 +7,9 @@ const { urlQuestion, fetchQuestion } = require('./src/utils/area/questions.js');
 inquirer.prompt([urlQuestion, fetchQuestion]).then(answers => {
   const { areaURL, mainComponentType } = answers;
 
-  areaTask(areaURL, mainComponentType).then(areaPath => {
+  return areaTask(areaURL, mainComponentType).then(areaPath => {
     console.log(`A new area has been generated in ${areaPath}`);
   });
+}).catch(err => {
+  console.error('[ERROR] ', err);
 });

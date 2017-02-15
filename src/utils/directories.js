@@ -26,7 +26,7 @@ module.exports = {
   createDirectories(url, root) {
     const segments = url.split('/');
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.createDirectory(root, [].concat(segments).reverse(), areaPath => {
         resolve({ segments, areaPath });
       });
@@ -45,7 +45,7 @@ module.exports = {
     });
   },
 
-  getFilesFromDirectory(directoryPath, fileCallback, finishCallback) {
+  getFilesFromDirectory(directoryPath, fileCallback, finishCallback, errorCallback) {
     const walker = walk.walk(directoryPath, { followLinks: false });
 
     walker.on('file', (root, stat, next) => {
@@ -56,6 +56,15 @@ module.exports = {
     walker.on('end', () => {
       if (finishCallback) {
         finishCallback();
+      }
+    });
+
+    walker.on('errors', (root, nodeStats) => {
+      if (errorCallback) {
+        errorCallback(_.map(nodeStats, stat => {
+          const error = stat.error.message || `${stat.error.code} ${stat.error.path}`;
+          return `${stat.name}: ${error}`;
+        }).join());
       }
     });
   },

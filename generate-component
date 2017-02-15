@@ -14,8 +14,8 @@ program
   .parse(process.argv);
 
 const lastQuestion = (componentsPath, componentType) => {
-  inquirer.prompt([nameQuestion]).then(({ componentName }) => {
-    componentTask(componentsPath, componentName, componentType).then((componentsPath) => {
+  return inquirer.prompt([nameQuestion]).then(({ componentName }) => {
+    return componentTask(componentsPath, componentName, componentType).then((componentsPath) => {
       console.log(`${componentName} in ${componentsPath} has been generated`);
     });
   });
@@ -56,11 +56,13 @@ inquirer.prompt(getInitialQuestions()).then(answers => {
   const componentsPath = getComponentPath(answers);
 
   if (componentType === 'presentational') {
-    inquirer.prompt([functionalQuestion]).then(({ isFunctional }) => {
+    return inquirer.prompt([functionalQuestion]).then(({ isFunctional }) => {
       const componentType = isFunctional ? 'component_pure' : 'component';
-      lastQuestion(componentsPath, componentType);
+      return lastQuestion(componentsPath, componentType);
     });
   } else {
-    lastQuestion(componentsPath, 'component_container');
+    return lastQuestion(componentsPath, 'component_container');
   }
+}).catch(err => {
+  console.error('[ERROR] ', err);
 });
