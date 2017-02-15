@@ -1,6 +1,6 @@
 {
   "name": "react-scaffold-generator",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A set of generators for an opinionated folder structure, React components and Redux entities.",
   "main": "generate",
   "scripts": {
@@ -13,8 +13,8 @@
     "react-scaffold-generator-area": "./generate-area"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/23/react-scaffold-generator"
+    "type": "git",
+    "url": "https://github.com/23/react-scaffold-generator"
   },
   "author": "Daniel Pouzemski",
   "license": "ISC",
