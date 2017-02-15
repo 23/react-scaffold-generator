@@ -1,29 +1,66 @@
 #!/usr/bin/env node
 
 const inquirer = require('inquirer');
+const program = require('commander');
+const directories = require('./src/utils/directories.js');
 const path = require('path');
 const componentTask = require('./src/tasks/component.js');
 const { urlQuestion, typeQuestion, functionalQuestion, nameQuestion  } = require('./src/utils/component/questions.js');
 
 const root = process.env.root || 'app';
 
-const lastQuestion = (areaURL, componentType) => {
+program
+  .option('-e, --here', 'skip the url inquiry step and create a component in the components folder below the current folder')
+  .parse(process.argv);
+
+const lastQuestion = (componentsPath, componentType) => {
   inquirer.prompt([nameQuestion]).then(({ componentName }) => {
-    componentTask(areaURL, componentName, componentType).then((componentsPath) => {
+    componentTask(componentsPath, componentName, componentType).then((componentsPath) => {
       console.log(`${componentName} in ${componentsPath} has been generated`);
     });
   });
 };
 
-inquirer.prompt([urlQuestion, typeQuestion]).then(answers => {
-  const { areaURL, componentType } = answers;
+const getInitialQuestions = () => {
+  if (program.here) {
+    return [typeQuestion];
+  } else {
+    return [urlQuestion, typeQuestion];
+  }
+}
+
+const determinePath = () => {
+  const currentFolder = directories.resolveWorkingDir();
+  const currentFolderName = path.basename(currentFolder);
+  const componentsInsideCurrentFolder = path.resolve(currentFolder, 'components');
+
+  if (currentFolderName === 'components') {
+    return currentFolder;
+  } else if (directories.doesDirectoryExist(componentsInsideCurrentFolder)) {
+    return componentsInsideCurrentFolder;
+  } else {
+    throw Error('Could not determine path');
+  }
+};
+
+const getComponentPath = answers => {
+  if (program.here) {
+    return determinePath();
+  } else {
+    return path.resolve(directories.convertURLtoPath(answers.areaURL), 'components');
+  }
+};
+
+inquirer.prompt(getInitialQuestions()).then(answers => {
+  const { componentType } = answers;
+  const componentsPath = getComponentPath(answers);
 
   if (componentType === 'presentational') {
     inquirer.prompt([functionalQuestion]).then(({ isFunctional }) => {
       const componentType = isFunctional ? 'component_pure' : 'component';
-      lastQuestion(areaURL, componentType);
+      lastQuestion(componentsPath, componentType);
     });
   } else {
-    lastQuestion(areaURL, 'component_container');
+    lastQuestion(componentsPath, 'component_container');
   }
 });
