@@ -20,6 +20,8 @@ module.exports = {
       if (_.isEmpty(val)) {
         return 'This does not look like a valid URL';
       }
+
+      return true;
     }
   },
   fetchQuestion: {

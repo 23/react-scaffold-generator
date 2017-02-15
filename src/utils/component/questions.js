@@ -20,6 +20,8 @@ module.exports = {
       if (_.isEmpty(val)) {
         return 'This does not look like a valid URL';
       }
+
+      return true;
     }
   },
   typeQuestion: {
@@ -58,6 +60,8 @@ module.exports = {
       if (_.isEmpty(val)) {
         return 'This does not look like a valid component name';
       }
+
+      return true;
     }
   }
 };
