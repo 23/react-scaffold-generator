@@ -7,8 +7,8 @@ const componentTask = require('./component.js');
 
 module.exports = (areaURL, mainComponentType) => {
   return new Promise((resolve, reject) => {
-    directories.createDirectories(areaURL, directories.getRoot()).then(({ segments, areaPath }) => {
-      directories.copyDirectory(path.resolve('scaffold/area'), areaPath).then(() => {
+    directories.createDirectories(areaURL, directories.resolveWorkingDir('app')).then(({ segments, areaPath }) => {
+      directories.copyDirectory(path.resolve(__dirname, '../../scaffold/area'), areaPath).then(() => {
         const placeholders = generatePlaceholders(segments, mainComponentType);
         const promises = [];
 
@@ -19,8 +19,9 @@ module.exports = (areaURL, mainComponentType) => {
         }, () => {
           Promise.all(promises).then(() => {
             const componentType = mainComponentType === 'container' ? 'component_container' : 'component';
+            const componentsPath = path.resolve(areaPath, 'components');
 
-            componentTask(areaURL, placeholders.mainComponentName, componentType).then(
+            componentTask(componentsPath, placeholders.mainComponentName, componentType).then(
               () => resolve(areaPath)
             );
           });

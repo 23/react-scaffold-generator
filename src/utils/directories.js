@@ -60,13 +60,26 @@ module.exports = {
     });
   },
 
+  doesDirectoryExist(dirPath) {
+    try {
+      fs.statSync(dirPath);
+      return true;
+    } catch(e) {
+      return false;
+    }
+  },
+
   convertURLtoPath(url) {
     const segments = url.split('/').map(segment => _.upperFirst(segment)).join('/');
 
-    return path.resolve('app', segments);
+    return this.resolveWorkingDir('app', segments);
   },
 
-  getRoot() {
-    return process.env.REACT_SCAFFOLD_ROOT || path.resolve('app');
+  resolveWorkingDir(...args) {
+    if (args) {
+      return path.resolve(process.cwd(), ...args);
+    } else {
+      return path.resolve(process.cwd());
+    }
   }
 };
