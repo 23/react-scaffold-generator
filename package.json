@@ -7,6 +7,11 @@
     "start": "./generate",
     "test": "jest"
   },
+  "bin": {
+    "react-scaffold-generator": "./generate",
+    "react-scaffold-generator-component": "./generate-component",
+    "react-scaffold-generator-area": "./generate-area"
+  },
   "author": "Daniel Pouzemski",
   "license": "ISC",
   "dependencies": {
