@@ -41,7 +41,7 @@ module.exports = {
   },
   functionalQuestion: {
     type: 'confirm',
-    name: 'isFunctional',
+    name: 'isStateful',
     message: 'Will it have its own state?',
     default: false
   },

@@ -56,8 +56,8 @@ inquirer.prompt(getInitialQuestions()).then(answers => {
   const componentsPath = getComponentPath(answers);
 
   if (componentType === 'presentational') {
-    return inquirer.prompt([functionalQuestion]).then(({ isFunctional }) => {
-      const componentType = isFunctional ? 'component_pure' : 'component';
+    return inquirer.prompt([functionalQuestion]).then(({ isStateful }) => {
+      const componentType = isStateful ? 'component' : 'component_pure';
       return lastQuestion(componentsPath, componentType);
     });
   } else {
