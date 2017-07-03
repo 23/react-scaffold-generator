@@ -1,6 +1,6 @@
 {
   "name": "react-scaffold-generator",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A set of generators for an opinionated folder structure, React components and Redux entities.",
   "main": "generate",
   "scripts": {
