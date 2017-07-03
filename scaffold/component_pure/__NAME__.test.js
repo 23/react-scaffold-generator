@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import { shallow } from 'enzyme';
 
-import __NAME__ from './__NAME__.jsx';
+import __NAME__ from './__NAME__';
 
 describe('snapshot tests', () => {
   it('renders', () => {
