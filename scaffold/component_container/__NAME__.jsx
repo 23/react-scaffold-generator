@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchData } from '../../actions';
 
 import './__NAME__.scss';
 
 class __NAME__ extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchData();
   }
 
@@ -19,7 +20,11 @@ class __NAME__ extends React.Component {
 }
 
 __NAME__.propTypes = {
-  fetchData: React.PropTypes.func
+  fetchData: PropTypes.func
+};
+
+__NAME__.defaultProps = {
+
 };
 
 const mapStateProps = state => ({
